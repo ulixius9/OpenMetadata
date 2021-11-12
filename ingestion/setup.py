@@ -78,6 +78,7 @@ base_plugins = {
 }
 plugins: Dict[str, Set[str]] = {
     "athena": {"PyAthena[SQLAlchemy]"},
+    "atlas": {},
     "bigquery": {"openmetadata-sqlalchemy-bigquery==0.2.0"},
     "bigquery-usage": {"google-cloud-logging", "cachetools"},
     "elasticsearch": {"elasticsearch~=7.13.1"},
