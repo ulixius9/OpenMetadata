@@ -15,7 +15,7 @@ def register_custom_type(tp: Type[types.TypeEngine], output: str = None) -> None
 
 _column_type_mapping: Dict[Type[types.TypeEngine], str] = {
     types.Integer: "INT",
-    types.Numeric: "INT",
+    types.DECIMAL: "DECIMAL",
     types.Boolean: "BOOLEAN",
     types.Enum: "ENUM",
     types._Binary: "BYTES",
@@ -33,6 +33,7 @@ _column_type_mapping: Dict[Type[types.TypeEngine], str] = {
     types.NullType: "NULL",
     types.JSON: "JSON",
     types.CHAR: "CHAR",
+    types.Numeric: "INT",
 }
 
 _column_string_mapping = {
@@ -60,6 +61,7 @@ _column_string_mapping = {
     "INTEGER": "INT",
     "SMALLINT": "SMALLINT",
     "TIMESTAMP WITHOUT TIME ZONE": "TIMESTAMP",
+    "DECIMAL": "DECIMAL",
 }
 
 _known_unknown_column_types: Set[Type[types.TypeEngine]] = {
