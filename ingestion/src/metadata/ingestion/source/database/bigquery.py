@@ -134,24 +134,27 @@ class BigquerySource(CommonDbSourceService):
         :param _:
         :return:
         """
-        taxonomies = PolicyTagManagerClient().list_taxonomies(
-            parent=f"projects/{self.project_id}/locations/{self.service_connection.taxonomyLocation}"
-        )
-        for taxonomy in taxonomies:
-            policiy_tags = PolicyTagManagerClient().list_policy_tags(
-                parent=taxonomy.name
+        try:
+            taxonomies = PolicyTagManagerClient().list_taxonomies(
+                parent=f"projects/{self.project_id}/locations/{self.service_connection.taxonomyLocation}"
             )
-            for tag in policiy_tags:
-                yield OMetaTagAndCategory(
-                    category_name=CreateTagCategoryRequest(
-                        name=self.service_connection.tagCategoryName,
-                        description="",
-                        categoryType="Classification",
-                    ),
-                    category_details=CreateTagRequest(
-                        name=tag.display_name, description="Bigquery Policy Tag"
-                    ),
+            for taxonomy in taxonomies:
+                policiy_tags = PolicyTagManagerClient().list_policy_tags(
+                    parent=taxonomy.name
                 )
+                for tag in policiy_tags:
+                    yield OMetaTagAndCategory(
+                        category_name=CreateTagCategoryRequest(
+                            name=self.service_connection.tagCategoryName,
+                            description="",
+                            categoryType="Classification",
+                        ),
+                        category_details=CreateTagRequest(
+                            name=tag.display_name, description="Bigquery Policy Tag"
+                        ),
+                    )
+        except Exception as err:
+            logger.error(err)
 
     def get_tag_labels(self, table_name: str) -> Optional[List[TagLabel]]:
         """
